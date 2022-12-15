@@ -1,0 +1,55 @@
+CREATE DATABASE mi_bd;
+USE mi_bd;
+
+CREATE TABLE ciudad (
+    id INT PRIMARY KEY,
+    nombre VARCHAR(255)
+);
+
+CREATE TABLE cliente (
+    id INT PRIMARY KEY,
+    primer_nombre VARCHAR(255),
+    primer_apellido VARCHAR(255),
+    días_mora INT,
+    id_ciudad INT,
+    FOREIGN KEY (id_ciudad) REFERENCES ciudad(id)
+);
+
+INSERT INTO ciudad (id, nombre)
+VALUES
+    (1, 'Bogotá'),
+    (2, 'Cali'),
+    (3, 'Barranquilla'),
+    (4, 'Cartagena'),
+    (5, 'Huila'),
+    (6, 'Santa Marta'),
+    (7, 'Santander'),
+    (8, 'Boyaca'),
+    (9, 'Guaviare'),
+    (10, 'Arauca');
+
+-- Insertar 10 clientes en la tabla cliente
+INSERT INTO cliente (id, primer_nombre, primer_apellido, días_mora, id_ciudad)
+VALUES
+    (1, 'Juan', 'Pérez', 5, 1),
+    (2, 'Ana', 'Rodríguez', 10, 2),
+    (3, 'Pedro', 'González', 15, 3),
+    (4, 'Lucía', 'Sánchez', 20, 4),
+    (5, 'María', 'Martínez', 25, 5),
+    (6, 'Daniel', 'García', 30, 6),
+    (7, 'Sofía', 'López', 35, 7),
+    (8, 'Miguel', 'Díaz', 40, 8),
+    (9, 'Laura', 'Jiménez', 45, 9),
+    (10, 'Pablo', 'Muñoz', 50, 10);
+
+
+SELECT cliente.id AS cedula, CONCAT(cliente.primer_nombre, ' ', cliente.primer_apellido) AS nombre, cliente.días_mora AS diasEnMora, 
+    CASE 
+        WHEN cliente.días_mora BETWEEN 1 AND 20 THEN 'Riesgo Bajo'
+        WHEN cliente.días_mora BETWEEN 21 AND 35 THEN 'Riesgo Medio'
+        ELSE 'Riesgo Alto'
+    END AS riesgo, ciudad.nombre AS ciudad
+FROM cliente
+JOIN ciudad ON ciudad.id = cliente.id_ciudad
+WHERE cliente.días_mora > 0
+ORDER BY cliente.días_mora ASC;
