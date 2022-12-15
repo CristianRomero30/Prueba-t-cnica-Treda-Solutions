@@ -1,0 +1,24 @@
+-- Creación de la base de datos
+CREATE DATABASE mi_base_de_datos;
+
+-- Uso de la base de datos
+USE mi_base_de_datos;
+
+-- Creación de la tabla de tiendas
+CREATE TABLE tiendas (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(100) NOT NULL,
+  fecha_apertura DATE NOT NULL
+);
+
+-- Creación de la tabla de productos
+CREATE TABLE productos (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  sku VARCHAR(100) NOT NULL,
+  nombre VARCHAR(100) NOT NULL,
+  descripcion TEXT NOT NULL,
+  valor DECIMAL(10, 2) NOT NULL,
+  imagen VARCHAR(255) NOT NULL,
+  tienda_id INT NOT NULL,
+  FOREIGN KEY (tienda_id) REFERENCES tiendas(id)
+);
